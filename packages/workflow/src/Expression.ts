@@ -144,11 +144,14 @@ export class Expression {
 
 		// Execute the expression
 		try {
+			const windowMatches = parameterValue.match(/([^a-zA-Z.]window[^a-zA-Z0-9])/g);
+			const windowInsideStringMatches = parameterValue.match(
+				/'[^']*window[^']*'|"[^"]*window[^"]*"/g,
+			);
+
 			if (
-				parameterValue.includes('window') &&
-				!/([a-zA-Z.]window|window[a-zA-Z]|['"](?!\s*[\\+\-*/|]+\s*)[^'"]*window)/g.test(
-					parameterValue,
-				)
+				windowMatches &&
+				(!windowInsideStringMatches || windowMatches.length !== windowInsideStringMatches.length)
 			) {
 				throw new Error(`window is not allowed`);
 			}
