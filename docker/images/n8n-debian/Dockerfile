@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18.1-buster-slim
 
 ARG N8N_VERSION
 
